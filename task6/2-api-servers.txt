@@ -1,0 +1,2 @@
+echo "docker-compose up -d --scale backend=2" > task6/2-api-servers.txt
+

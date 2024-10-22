@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./front-end # Path to the front-end Dockerfile
+    ports:
+      - "50004:80"  # Expose port 80 of the front-end service on host port 50004
+    networks:
+      - app-network
+
+  backend:
+    build:
+      context: ./back-end  # Path to the back-end Dockerfile
+    expose:
+      - "5000"
+    networks:
+      - app-network
+
+  proxy:
+    build: ./proxy  # Path to the Nginx proxy Dockerfile
+    ports:
+      - "50003:80"   # Expose port 80 of the proxy service on host port 50003
+    networks:
+      - app-network
+    depends_on:
+      - frontend
+      - backend
+
+networks:
+  app-network:
+    driver: bridge
